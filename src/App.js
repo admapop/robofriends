@@ -1,7 +1,6 @@
 import React from 'react'; //can also be written as React, { Component }
 import CardList from './CardList';
 import SearchBox from './SearchBox';
-import { robots } from './robots';
 import './App.css';
 
 class App extends React.Component { //if declared as above, use just Component
@@ -9,10 +8,18 @@ class App extends React.Component { //if declared as above, use just Component
     constructor() {
         super()
         this.state = {
-            robots: robots,
+            robots: [],
             searchField: ''
         }
     }
+    
+    //added fetch request to pull in users from a JSON placeholder
+    componentDidMount() {
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response=> response.json())               //no {} or return needed because function is one line
+            .then(users => this.setState({ robots: users}));
+    }
+
     //when creating my own methods use arrow functions. IMPORTANT
     onSearchChange = (event) => {
         this.setState({ searchField: event.target.value }) //sets the searchfield to what I'm typing

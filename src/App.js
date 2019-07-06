@@ -26,10 +26,13 @@ class App extends React.Component { //if declared as above, use just Component
         //console.log(filteredRobots); gives actual value typed in the box
     }
 
-    render() {
+    render() {                                              //moved filtering here to get access to it as a prop
         const filteredRobots = this.state.robots.filter(robot => {
             return robot.name.toLowerCase().includes(this.state.searchField.toLowerCase());
-        }) //moved filtering here to get access to it as a prop
+        })                                                  
+        if (this.state.robots.length === 0) {               //"loading" screen
+            return <h1>Loading</h1>
+        } else {
         return(
             <div className='tc' >
                 <h1 className='f1'>RoboFriends</h1>
@@ -37,6 +40,7 @@ class App extends React.Component { //if declared as above, use just Component
                 <CardList robots={filteredRobots} />
             </div>
         );
+        }   
     }
 }
 

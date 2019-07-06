@@ -4,6 +4,7 @@ import SearchBox from './SearchBox';
 import { robots } from './robots';
 
 class App extends React.Component { //if declared as above, use just Component
+                                    //needs to be declared like this to use STATE
     constructor() {
         super()
         this.state = {
@@ -14,18 +15,18 @@ class App extends React.Component { //if declared as above, use just Component
     //when creating my own methods use arrow functions. IMPORTANT
     onSearchChange = (event) => {
         this.setState({ searchField: event.target.value }) //sets the searchfield to what I'm typing
-        const filteredRobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchField.toLowerCase());
-        })
-        console.log(filteredRobots); //gives actual value typed in the box
+        //console.log(filteredRobots); gives actual value typed in the box
     }
 
     render() {
+        const filteredRobots = this.state.robots.filter(robot => {
+            return robot.name.toLowerCase().includes(this.state.searchField.toLowerCase());
+        }) //moved filtering here to get access to it as a prop
         return(
             <div className='tc' >
                 <h1>RoboFriends</h1>
                 <SearchBox searchChange={this.onSearchChange} />
-                <CardList robots={this.state.robots} />
+                <CardList robots={filteredRobots} />
             </div>
         );
     }

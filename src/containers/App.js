@@ -1,7 +1,7 @@
 import React from 'react'; //can also be written as React, { Component }
-import CardList from './CardList';
-import SearchBox from './SearchBox';
-import Scroll from './Scroll';
+import CardList from '../components/CardList';
+import SearchBox from '../components/SearchBox';
+import Scroll from '../components/Scroll';
 import './App.css';
 
 class App extends React.Component { //if declared as above, use just Component

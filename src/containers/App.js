@@ -28,10 +28,11 @@ class App extends React.Component { //if declared as above, use just Component
     }
 
     render() {                                              //moved filtering here to get access to it as a prop
-        const filteredRobots = this.state.robots.filter(robot => {
-            return robot.name.toLowerCase().includes(this.state.searchField.toLowerCase());
+        const { robots, searchField } = this.state;         //avoids having to use this.state in front of robots
+        const filteredRobots = robots.filter(robot => {     //searchField
+            return robot.name.toLowerCase().includes(searchField.toLowerCase());
         })                                                  
-        if (this.state.robots.length === 0) {               //"loading" screen
+        if (robots.length === 0) {               //"loading" screen
             return <h1>Loading</h1>
         } else {
         return(

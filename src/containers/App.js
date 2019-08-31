@@ -1,4 +1,4 @@
-import React from 'react'; //can also be written as React, { Component }
+import React from 'react'; 
 import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
@@ -9,7 +9,8 @@ import { setSearchField } from '../actions';
 
 const mapStateToProps = state => {
     return {
-        searchField: state.searchField
+        searchField: state.searchField //gotcha right here, normally if there are multiple reducers,
+                                       //it would be state.reducerName.whatever
     }
 }
 
@@ -19,8 +20,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-class App extends React.Component { //if declared as above, use just Component
-                                    //needs to be declared like this to use STATE
+class App extends React.Component { 
     constructor() {
         super()
         this.state = {
@@ -31,7 +31,7 @@ class App extends React.Component { //if declared as above, use just Component
     //added fetch request to pull in users from a JSON placeholder
     componentDidMount() {
         fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response=> response.json())               //no {} or return needed because function is one line
+            .then(response=> response.json())               
             .then(users => this.setState({ robots: users}));
     }
 

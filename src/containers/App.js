@@ -1,46 +1,50 @@
-import React from 'react'; //can also be written as React, { Component }
+import React from 'react'; 
+import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Scroll from '../components/Scroll';
 import './App.css';
+import ErrorBoundary from '../components/ErrorBoundary';
+import { setSearchField, requestRobots } from '../actions';
 
-class App extends React.Component { //if declared as above, use just Component
-                                    //needs to be declared like this to use STATE
-    constructor() {
-        super()
-        this.state = {
-            robots: [],
-            searchField: ''
-        }
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchRobots.searchField,
+        robots: state.requestRobots.robots,
+        isPending: state.requestRobots.isPending,
+        error: state.requestRobots.error
     }
-    
-    //added fetch request to pull in users from a JSON placeholder
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestRobots: () => requestRobots(dispatch) //we need to send dispatch the requestRobots action
+                                                        //the same as () => dispatch(requestRobots())
+    }
+}
+
+class App extends React.Component { 
     componentDidMount() {
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then(response=> response.json())               //no {} or return needed because function is one line
-            .then(users => this.setState({ robots: users}));
+        this.props.onRequestRobots();
     }
 
-    //when creating my own methods use arrow functions. IMPORTANT
-    onSearchChange = (event) => {
-        this.setState({ searchField: event.target.value }) //sets the searchfield to what I'm typing
-        //console.log(filteredRobots); gives actual value typed in the box
-    }
-
-    render() {                                              //moved filtering here to get access to it as a prop
-        const { robots, searchField } = this.state;         //avoids having to use this.state in front of robots
-        const filteredRobots = robots.filter(robot => {     //searchField
+    render() {                                              
+        const { searchField, onSearchChange, robots, isPending } = this.props;
+        const filteredRobots = robots.filter(robot => {     
             return robot.name.toLowerCase().includes(searchField.toLowerCase());
         })                                                  
-        if (robots.length === 0) {               //"loading" screen
+        if (isPending) {               //"loading" screen
             return <h1>Loading</h1>
         } else {
         return(
             <div className='tc' >
                 <h1 className='f1'>RoboFriends</h1>
-                <SearchBox searchChange={this.onSearchChange} />
+                <SearchBox searchChange={onSearchChange} />
                 <Scroll>
+                    <ErrorBoundary>
                     <CardList robots={filteredRobots} />
+                    </ErrorBoundary>
                 </Scroll>
             </div>
         );
@@ -60,4 +64,4 @@ class App extends React.Component { //if declared as above, use just Component
 //     );
 // }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

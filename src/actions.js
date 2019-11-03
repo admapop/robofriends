@@ -15,7 +15,7 @@ export const setSearchField = (text) => ({
 // requestRobots = () => (dispatch) => {}
 //
 // redux-thunk needs actions to be functions to trigger
-export const requestRobots = (dispatch) => {
+export const requestRobots = () => (dispatch) => {
     dispatch({ type: REQUEST_ROBOTS_PENDING });
     fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())

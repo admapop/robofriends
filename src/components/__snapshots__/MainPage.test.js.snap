@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders MainPage without crashing 1`] = `
+"<div className=\\"tc\\">
+  <h1 className=\\"f1\\">
+    RoboFriends
+  </h1>
+  <SearchBox searchChange={[undefined]} />
+  <Scroll>
+    <ErrorBoundary>
+      <CardList robots={{...}} />
+    </ErrorBoundary>
+  </Scroll>
+</div>"
+`;
